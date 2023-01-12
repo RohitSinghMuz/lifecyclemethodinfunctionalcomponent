@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+let interval;
+const App = () => {
+  const [count, setcount] = useState(0);
+  const [status, setstatus] = useState(false);
 
-function App() {
+  useEffect(() => {
+    if (status === true) {
+      interval = setInterval(() => {
+        setcount(count + 1);
+        // setcount((prestate) => prestate + 1);
+      }, 2000);
+    }
+
+    return () => clearInterval(interval);
+  }, [status, count]);
+
+  const Increment = () => {
+    setstatus(true);
+  };
+  const stopfunction = () => {
+    setstatus(false);
+  };
+  const clearIntervaldata = () => {
+    clearInterval(interval);
+    setcount(0);
+  };
+
+  console.log("city name Hyderabad");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <div style={{ width: "30%", margin: "10px auto" }}>
+        <button
+          style={{ padding: "10px 20px", margin: "10px" }}
+          onClick={Increment}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          Start
+        </button>
+        <button
+          style={{ padding: "10px 20px", margin: "10px" }}
+          onClick={stopfunction}
+        >
+          Stop
+        </button>
+        <button
+          style={{ padding: "10px 20px", margin: "10px" }}
+          onClick={clearIntervaldata}
+        >
+          Clear
+        </button>
+        <h2 style={{ padding: "10px 20px", margin: "10px" }}>count:{count}</h2>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
